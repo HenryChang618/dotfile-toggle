@@ -2,7 +2,7 @@
 	"extension.displayName": "点文件显示开关",
 	"extension.description": "切换 VS Code 中点文件的显示状态。",
 	"configuration.title": "点文件显示开关",
-	"configuration.keepVisible.description": "始终保持显示的 files.exclude 规则。每一项必须与 files.exclude 中的键完全一致。",
+	"configuration.keepVisible.description": "隐藏其他点文件时仍保持显示的点文件名称，例如 `.env` 和 `.vscode`。扩展会自动处理常见的 `**/.*` 宽泛规则；也兼容旧的 `**/.名称` 写法。",
 	"command.category": "点文件显示开关",
 	"command.hide.title": "隐藏点文件",
 	"command.show.title": "显示点文件",

@@ -1,6 +1,27 @@
 import * as vscode from 'vscode';
+import {
+	Excludes,
+	getExcludeState,
+	setExcludeState
+} from './dotfileRules';
+
+const configKey = 'files.exclude';
+const keepVisibleSection = 'dotfileToggle';
+const keepVisibleKey = 'keepVisible';
+const globalManagedStateKey = 'managedGlobalExcludePattern';
+const workspaceManagedStateKey = 'managedWorkspaceExcludePattern';
+const folderManagedStatePrefix = 'managedFolderExcludePattern:';
+
+let extensionContext: vscode.ExtensionContext;
 
 export function activate(context: vscode.ExtensionContext) {
+	extensionContext = context;
+	const syncableGlobalState = context.globalState as vscode.Memento & {
+		setKeysForSync?: (keys: readonly string[]) => void;
+	};
+	if (syncableGlobalState.setKeysForSync) {
+		syncableGlobalState.setKeysForSync([globalManagedStateKey]);
+	}
 	context.subscriptions.push(
 		vscode.commands.registerCommand('extension.hideFiles', hide),
 		vscode.commands.registerCommand('extension.showFiles', show),
@@ -11,31 +32,27 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() { }
 
 function hide() {
-	updateConfiguration(true);
+	return updateConfiguration(true);
 }
 
 function show() {
-	updateConfiguration(false);
+	return updateConfiguration(false);
 }
 
 function toggle() {
-	updateConfiguration();
+	return updateConfiguration();
 }
-
-const configKey = 'files.exclude';
-const keepVisibleSection = 'dotfileToggle';
-const keepVisibleKey = 'keepVisible';
-
-type Excludes = { [key: string]: unknown };
 
 type ExcludeSetting = {
 	uri?: vscode.Uri;
 	excludes: Excludes;
 	keepVisible: string[];
 	target: vscode.ConfigurationTarget;
+	state: vscode.Memento;
+	stateKey: string;
 };
 
-function updateConfiguration(value?: boolean) {
+async function updateConfiguration(value?: boolean) {
 	const settings: ExcludeSetting[] = [
 		...getGeneralSettings(),
 		...getFoldersSettings()
@@ -45,14 +62,21 @@ function updateConfiguration(value?: boolean) {
 		value = !getCurrentState(settings);
 	}
 
-	for (const setting of settings) {
-		vscode.workspace.getConfiguration(undefined, setting.uri)
-			.update(
-				configKey,
-				setState(setting.excludes, value, setting.keepVisible),
-				setting.target
-			);
-	}
+	await Promise.all(settings.map(setting => updateSetting(setting, value as boolean)));
+}
+
+async function updateSetting(setting: ExcludeSetting, hidden: boolean) {
+	const previousManagedPattern = setting.state.get<string>(setting.stateKey);
+	const result = setExcludeState(
+		setting.excludes,
+		hidden,
+		setting.keepVisible,
+		previousManagedPattern
+	);
+
+	await vscode.workspace.getConfiguration(undefined, setting.uri)
+		.update(configKey, result.excludes, setting.target);
+	await setting.state.update(setting.stateKey, result.managedPattern);
 }
 
 function getGeneralSettings(): ExcludeSetting[] {
@@ -64,7 +88,9 @@ function getGeneralSettings(): ExcludeSetting[] {
 		settings.push({
 			excludes: config.globalValue,
 			keepVisible: keepVisible.global,
-			target: vscode.ConfigurationTarget.Global
+			target: vscode.ConfigurationTarget.Global,
+			state: extensionContext.globalState,
+			stateKey: globalManagedStateKey
 		});
 	}
 
@@ -72,7 +98,9 @@ function getGeneralSettings(): ExcludeSetting[] {
 		settings.push({
 			excludes: config.workspaceValue,
 			keepVisible: keepVisible.workspace,
-			target: vscode.ConfigurationTarget.Workspace
+			target: vscode.ConfigurationTarget.Workspace,
+			state: extensionContext.workspaceState,
+			stateKey: workspaceManagedStateKey
 		});
 	}
 
@@ -99,7 +127,9 @@ function getFoldersSettings(): ExcludeSetting[] {
 			uri: folder.uri,
 			excludes: config.workspaceFolderValue,
 			keepVisible: keepVisible.workspaceFolder,
-			target: vscode.ConfigurationTarget.WorkspaceFolder
+			target: vscode.ConfigurationTarget.WorkspaceFolder,
+			state: extensionContext.workspaceState,
+			stateKey: `${folderManagedStatePrefix}${folder.uri.toString()}`
 		});
 	}
 
@@ -126,25 +156,5 @@ function inspectKeepVisible(uri?: vscode.Uri) {
 }
 
 function getCurrentState(settings: ExcludeSetting[]) {
-	return settings.some(setting => {
-		const keepVisible = new Set(setting.keepVisible);
-		return Object.keys(setting.excludes).some(key =>
-			!keepVisible.has(key) && setting.excludes[key] === true
-		);
-	});
-}
-
-function setState(excludes: Excludes, value: boolean, keepVisiblePatterns: string[]) {
-	const updatedExcludes = { ...excludes };
-	const keepVisible = new Set(keepVisiblePatterns);
-
-	for (const key of Object.keys(updatedExcludes)) {
-		if (typeof updatedExcludes[key] !== 'boolean') {
-			continue;
-		}
-
-		updatedExcludes[key] = keepVisible.has(key) ? false : value;
-	}
-
-	return updatedExcludes;
+	return settings.some(setting => getExcludeState(setting.excludes, setting.keepVisible));
 }

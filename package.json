@@ -9,7 +9,7 @@
 	},
 	"license": "MIT",
 	"icon": "img/icon.png",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"engines": {
 		"vscode": "^1.35.0"
 	},
@@ -43,10 +43,12 @@
 					"default": [],
 					"scope": "resource",
 					"items": {
-						"type": "string"
+						"type": "string",
+						"pattern": "^(?:\\*\\*/)?\\.[A-Za-z0-9._@+\\-]+$"
 					},
 					"uniqueItems": true,
-					"markdownDescription": "%configuration.keepVisible.description%"
+					"markdownDescription": "%configuration.keepVisible.description%",
+					"maxItems": 32
 				}
 			}
 		},

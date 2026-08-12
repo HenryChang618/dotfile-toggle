@@ -2,7 +2,7 @@
 	"extension.displayName": "Dotfile Toggle",
 	"extension.description": "Toggle the visibility of dotfiles and other excluded files.",
 	"configuration.title": "Dotfile Toggle",
-	"configuration.keepVisible.description": "files.exclude rules that always remain visible. Each entry must exactly match a key in files.exclude.",
+	"configuration.keepVisible.description": "Dotfile names that remain visible when other dotfiles are hidden, for example `.env` and `.vscode`. The extension automatically handles the common `**/.*` catch-all rule. The legacy `**/.name` form is also accepted.",
 	"command.category": "Dotfile Toggle",
 	"command.hide.title": "Hide Dotfiles",
 	"command.show.title": "Show Dotfiles",

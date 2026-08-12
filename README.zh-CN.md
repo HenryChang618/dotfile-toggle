@@ -48,27 +48,27 @@ Dotfile Toggle: Show Dotfiles
 
 带条件的排除对象不会被修改。
 
-## 始终显示规则
+## 始终显示的点文件
 
-可以通过 `dotfileToggle.keepVisible` 指定在隐藏其他排除项时仍然保持显示的布尔型 `files.exclude` 规则：
+使用 `dotfileToggle.keepVisible` 填写隐藏其他点文件时仍应显示的点文件或点文件夹名称。只填写名称，不需要填写 `files.exclude` 的规则键：
 
 ```json
 {
   "files.exclude": {
-    "**/.git": true,
-    "**/.env": true,
-    "**/.vscode": true
+    "**/.*": true
   },
   "dotfileToggle.keepVisible": [
-    "**/.env",
-    "**/.vscode"
+    ".env",
+    ".vscode"
   ]
 }
 ```
 
-每一项必须与 `files.exclude` 中的键完全一致。执行隐藏命令，或切换命令进入隐藏状态时，匹配的布尔规则会被设为 `false`，其余布尔规则会被设为 `true`。该设置可配置在用户、工作区或多根工作区文件夹范围。
+这正是针对常见 `"**/.*"` 宽泛规则的用法。执行“隐藏点文件”时，扩展会自动把该宽泛规则替换为一条**排除列表中名称**的等价生成规则。因此 `.env` 和 `.vscode` 会保持显示，不需要你手工拆分或维护复杂的 glob 规则；执行“显示点文件”时，生成规则会自动删除。
 
-具体规则无法抵消同时匹配该文件的宽泛规则。例如，将 `**/.env` 加入始终显示列表，并不能抵消已启用的 `**/.*`。需要单独设置例外时，应在 `files.exclude` 中使用彼此独立的规则键。
+也兼容旧的 `"**/.env"` 写法。该设置只接受简单的点文件名称，故意不支持任意 glob 表达式；可配置在用户、工作区或多根工作区文件夹范围。
+
+扩展只修改布尔型 `files.exclude` 条目，带条件的排除对象不会被修改。如果在点文件隐藏期间要手工编辑 `files.exclude`，请先执行“显示点文件”，让扩展清理临时生成的规则。
 
 ## 安装与迁移
 
@@ -90,14 +90,14 @@ code --install-extension henrychang.dotfile-toggle
 
 扩展发布到 Visual Studio Marketplace 后，VS Code Settings Sync 可以在其他机器上根据 Marketplace 扩展标识恢复安装。
 
-用户级 `files.exclude` 和 `dotfileToggle.keepVisible` 配置由 VS Code 的设置同步功能处理；工作区级配置仍应保存在工作区配置文件或项目仓库中。本扩展不保存其他需要额外同步的状态。
+用户级 `files.exclude` 和 `dotfileToggle.keepVisible` 配置由 VS Code 的设置同步功能处理；工作区级配置仍应保存在工作区配置文件或项目仓库中。在支持该能力的 VS Code 版本中，扩展还会同步一个内部清理键，用于在另一台机器上清理临时生成的全局排除规则。
 
 ## 本地构建
 
 ```bash
 npm install
 npm run compile
-npx @vscode/vsce package --out temp/dotfile-toggle-1.2.0.vsix
+npx @vscode/vsce package --out temp/dotfile-toggle-1.2.1.vsix
 ```
 
 项目不增加自动化测试、自动打包或自动发布脚本。发布包采用手工构建和检查。

@@ -48,27 +48,27 @@ For example, the following entries are supported:
 }
 ```
 
-## Always-visible rules
+## Always-visible dotfiles
 
-Use `dotfileToggle.keepVisible` for boolean `files.exclude` rules that must remain visible when the other excluded entries are hidden:
+Use `dotfileToggle.keepVisible` to name dotfiles or dotfolders that must remain visible when the other dotfiles are hidden. Enter only the name, not a `files.exclude` key:
 
 ```json
 {
   "files.exclude": {
-    "**/.git": true,
-    "**/.env": true,
-    "**/.vscode": true
+    "**/.*": true
   },
   "dotfileToggle.keepVisible": [
-    "**/.env",
-    "**/.vscode"
+    ".env",
+    ".vscode"
   ]
 }
 ```
 
-Each item must exactly match a key in `files.exclude`. When a hide or toggle command enters the hidden state, matching boolean rules are set to `false`; all other boolean rules are set to `true`. The setting can be configured at user, workspace, or workspace-folder scope.
+This works with the common `"**/.*"` catch-all rule. When hiding, Dotfile Toggle automatically replaces that broad rule with an equivalent generated exclusion rule that skips the names you listed. Therefore `.env` and `.vscode` remain visible without requiring you to manually split or maintain glob patterns. When showing, the generated rule is removed again.
 
-A specific entry cannot override a broader enabled rule that also matches the same file. For example, keeping `**/.env` visible does not cancel an enabled `**/.*` rule. Define separate `files.exclude` keys when individual exceptions are required.
+You may also use the older `"**/.env"` form; it remains supported for compatibility. The setting accepts simple dotfile names only, so it intentionally does not support arbitrary glob expressions. It can be configured at user, workspace, or workspace-folder scope.
+
+Only boolean `files.exclude` entries are changed. Conditional exclusion objects are left unchanged. If you edit `files.exclude` manually while dotfiles are hidden, first run **Show Dotfiles** to remove the temporary generated rule.
 
 ## Installation and migration
 
@@ -90,14 +90,14 @@ The earlier private VSIX used the upstream identifier `adrianwilczynski.toggle-h
 
 Once the extension is available from Visual Studio Marketplace, VS Code Settings Sync can restore it on another machine by its Marketplace identifier. User-level `files.exclude` values are handled by VS Code's settings synchronization; workspace-level values should remain in the workspace configuration or project repository.
 
-`dotfileToggle.keepVisible` is a normal VS Code setting: user-level values can be synchronized by Settings Sync, while workspace-level values should remain in the workspace configuration. The extension stores no additional synchronized state.
+`dotfileToggle.keepVisible` is a normal VS Code setting: user-level values can be synchronized by Settings Sync, while workspace-level values should remain in the workspace configuration. On VS Code versions that support it, the extension also synchronizes the internal key needed to clean up a temporary global exclusion rule on another machine.
 
 ## Local build
 
 ```bash
 npm install
 npm run compile
-npx @vscode/vsce package --out temp/dotfile-toggle-1.2.0.vsix
+npx @vscode/vsce package --out temp/dotfile-toggle-1.2.1.vsix
 ```
 
 The project intentionally does not add automated test, packaging, or publishing scripts. Release packages are built and inspected manually.

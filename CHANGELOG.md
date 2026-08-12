@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.2.1 - 2026-08-12
+
+- Fixed always-visible dotfiles so they work with the usual `"**/.*"` catch-all `files.exclude` rule.
+- Simplified `dotfileToggle.keepVisible`: use names such as `.env` and `.vscode`; the former `"**/.name"` form remains compatible.
+- Added safe cleanup of the temporary generated exclusion rule when showing dotfiles.
+
 ## 1.2.0 - 2026-08-12
 
 - Added the `dotfileToggle.keepVisible` setting for boolean `files.exclude` rules that must always remain visible.
