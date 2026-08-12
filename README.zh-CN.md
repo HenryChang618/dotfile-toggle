@@ -18,7 +18,7 @@
 
 ```text
 点文件显示开关: 显示点文件
-Peek Hidden Files: Show Excluded Files
+Dotfile Toggle: Show Dotfiles
 ```
 
 中文和英文都可以用于搜索命令。资源管理器右键菜单通常只显示中文命令标题。
@@ -50,7 +50,7 @@ Peek Hidden Files: Show Excluded Files
 
 ## 始终显示规则
 
-可以通过 `toggleHidden.keepVisible` 指定在隐藏其他排除项时仍然保持显示的布尔型 `files.exclude` 规则：
+可以通过 `dotfileToggle.keepVisible` 指定在隐藏其他排除项时仍然保持显示的布尔型 `files.exclude` 规则：
 
 ```json
 {
@@ -59,7 +59,7 @@ Peek Hidden Files: Show Excluded Files
     "**/.env": true,
     "**/.vscode": true
   },
-  "toggleHidden.keepVisible": [
+  "dotfileToggle.keepVisible": [
     "**/.env",
     "**/.vscode"
   ]
@@ -75,13 +75,13 @@ Peek Hidden Files: Show Excluded Files
 计划使用的独立 Marketplace 扩展标识为：
 
 ```text
-henrychang.toggle-hidden
+henrychang.dotfile-toggle
 ```
 
 扩展正式发布后，可以在扩展视图中搜索并安装，也可以运行：
 
 ```bash
-code --install-extension henrychang.toggle-hidden
+code --install-extension henrychang.dotfile-toggle
 ```
 
 此前生成的私有 VSIX 使用上游扩展标识 `adrianwilczynski.toggle-hidden`。由于更换 publisher 会产生新的扩展标识，不能预期 Settings Sync 自动把私有版本迁移成 Marketplace 版本。应先安装并验证 Marketplace 版本，再卸载仍然存在的私有版本或上游标识版本。
@@ -90,14 +90,14 @@ code --install-extension henrychang.toggle-hidden
 
 扩展发布到 Visual Studio Marketplace 后，VS Code Settings Sync 可以在其他机器上根据 Marketplace 扩展标识恢复安装。
 
-用户级 `files.exclude` 配置由 VS Code 的设置同步功能处理；工作区级配置仍应保存在工作区配置文件或项目仓库中。本扩展没有自定义设置，也没有需要额外同步的扩展状态。
+用户级 `files.exclude` 和 `dotfileToggle.keepVisible` 配置由 VS Code 的设置同步功能处理；工作区级配置仍应保存在工作区配置文件或项目仓库中。本扩展不保存其他需要额外同步的状态。
 
 ## 本地构建
 
 ```bash
 npm install
 npm run compile
-npx @vscode/vsce package --out temp/toggle-hidden-1.2.0-marketplace.vsix
+npx @vscode/vsce package --out temp/dotfile-toggle-1.2.0.vsix
 ```
 
 项目不增加自动化测试、自动打包或自动发布脚本。发布包采用手工构建和检查。

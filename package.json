@@ -1,11 +1,11 @@
 {
-	"name": "toggle-hidden",
+	"name": "dotfile-toggle",
 	"displayName": "%extension.displayName%",
 	"description": "%extension.description%",
 	"publisher": "henrychang",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/HenryChang618/toggle-hidden-files-zh.git"
+		"url": "https://github.com/HenryChang618/dotfile-toggle.git"
 	},
 	"license": "MIT",
 	"icon": "img/icon.png",
@@ -38,7 +38,7 @@
 		"configuration": {
 			"title": "%configuration.title%",
 			"properties": {
-				"toggleHidden.keepVisible": {
+				"dotfileToggle.keepVisible": {
 					"type": "array",
 					"default": [],
 					"scope": "resource",
@@ -85,8 +85,8 @@
 		"@types/vscode": "1.35.0",
 		"typescript": "5.9.3"
 	},
-	"homepage": "https://github.com/HenryChang618/toggle-hidden-files-zh#readme",
+	"homepage": "https://github.com/HenryChang618/dotfile-toggle#readme",
 	"bugs": {
-		"url": "https://github.com/HenryChang618/toggle-hidden-files-zh/issues"
+		"url": "https://github.com/HenryChang618/dotfile-toggle/issues"
 	}
 }

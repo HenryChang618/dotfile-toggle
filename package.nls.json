@@ -1,10 +1,10 @@
 {
-	"extension.displayName": "Peek Hidden Files",
-	"extension.description": "Toggle visibility of excluded files.",
-	"configuration.title": "Peek Hidden Files",
+	"extension.displayName": "Dotfile Toggle",
+	"extension.description": "Toggle the visibility of dotfiles and other excluded files.",
+	"configuration.title": "Dotfile Toggle",
 	"configuration.keepVisible.description": "files.exclude rules that always remain visible. Each entry must exactly match a key in files.exclude.",
-	"command.category": "Peek Hidden Files",
-	"command.hide.title": "Hide Excluded Files",
-	"command.show.title": "Show Excluded Files",
-	"command.toggle.title": "Toggle Excluded Files"
+	"command.category": "Dotfile Toggle",
+	"command.hide.title": "Hide Dotfiles",
+	"command.show.title": "Show Dotfiles",
+	"command.toggle.title": "Toggle Dotfiles"
 }

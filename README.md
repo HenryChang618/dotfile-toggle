@@ -1,4 +1,4 @@
-# Peek Hidden Files
+# Dotfile Toggle
 
 English | [简体中文](README.zh-CN.md)
 
@@ -6,19 +6,19 @@ Toggle the visibility of entries excluded by VS Code's `files.exclude` setting. 
 
 ## Features
 
-The following commands are available from the Command Palette under the **Peek Hidden Files** category:
+The following commands are available from the Command Palette under the **Dotfile Toggle** category:
 
-- `Hide Excluded Files`
-- `Show Excluded Files`
-- `Toggle Excluded Files`
+- `Hide Dotfiles`
+- `Show Dotfiles`
+- `Toggle Dotfiles`
 
-`Toggle Excluded Files` is also available from the Explorer context menu.
+`Toggle Dotfiles` is also available from the Explorer context menu.
 
 In a Simplified Chinese VS Code window, the Command Palette can show the localized title together with its English alias, for example:
 
 ```text
 点文件显示开关: 显示点文件
-Peek Hidden Files: Show Excluded Files
+Dotfile Toggle: Show Dotfiles
 ```
 
 Both Chinese and English text can therefore be used to search for the commands.
@@ -50,7 +50,7 @@ For example, the following entries are supported:
 
 ## Always-visible rules
 
-Use `toggleHidden.keepVisible` for boolean `files.exclude` rules that must remain visible when the other excluded entries are hidden:
+Use `dotfileToggle.keepVisible` for boolean `files.exclude` rules that must remain visible when the other excluded entries are hidden:
 
 ```json
 {
@@ -59,7 +59,7 @@ Use `toggleHidden.keepVisible` for boolean `files.exclude` rules that must remai
     "**/.env": true,
     "**/.vscode": true
   },
-  "toggleHidden.keepVisible": [
+  "dotfileToggle.keepVisible": [
     "**/.env",
     "**/.vscode"
   ]
@@ -75,13 +75,13 @@ A specific entry cannot override a broader enabled rule that also matches the sa
 The independent Marketplace extension identifier is planned as:
 
 ```text
-henrychang.toggle-hidden
+henrychang.dotfile-toggle
 ```
 
 After the extension has been published, install that identifier from the Extensions view or with:
 
 ```bash
-code --install-extension henrychang.toggle-hidden
+code --install-extension henrychang.dotfile-toggle
 ```
 
 The earlier private VSIX used the upstream identifier `adrianwilczynski.toggle-hidden`. Because changing the publisher changes the extension identifier, Settings Sync cannot be expected to migrate the private build automatically. Install and verify the Marketplace version first, then remove the private/upstream-identifier build if it is still installed.
@@ -90,14 +90,14 @@ The earlier private VSIX used the upstream identifier `adrianwilczynski.toggle-h
 
 Once the extension is available from Visual Studio Marketplace, VS Code Settings Sync can restore it on another machine by its Marketplace identifier. User-level `files.exclude` values are handled by VS Code's settings synchronization; workspace-level values should remain in the workspace configuration or project repository.
 
-The extension itself has no custom settings or synchronized extension state.
+`dotfileToggle.keepVisible` is a normal VS Code setting: user-level values can be synchronized by Settings Sync, while workspace-level values should remain in the workspace configuration. The extension stores no additional synchronized state.
 
 ## Local build
 
 ```bash
 npm install
 npm run compile
-npx @vscode/vsce package --out temp/toggle-hidden-1.2.0-marketplace.vsix
+npx @vscode/vsce package --out temp/dotfile-toggle-1.2.0.vsix
 ```
 
 The project intentionally does not add automated test, packaging, or publishing scripts. Release packages are built and inspected manually.

@@ -23,7 +23,7 @@ function toggle() {
 }
 
 const configKey = 'files.exclude';
-const keepVisibleSection = 'toggleHidden';
+const keepVisibleSection = 'dotfileToggle';
 const keepVisibleKey = 'keepVisible';
 
 type Excludes = { [key: string]: unknown };
