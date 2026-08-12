@@ -2,7 +2,7 @@
 	"name": "toggle-hidden",
 	"displayName": "%extension.displayName%",
 	"description": "%extension.description%",
-	"publisher": "HenryChang618",
+	"publisher": "henrychang",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/HenryChang618/toggle-hidden-files-zh.git"

@@ -75,13 +75,13 @@ A specific entry cannot override a broader enabled rule that also matches the sa
 The independent Marketplace extension identifier is planned as:
 
 ```text
-HenryChang618.toggle-hidden
+henrychang.toggle-hidden
 ```
 
 After the extension has been published, install that identifier from the Extensions view or with:
 
 ```bash
-code --install-extension HenryChang618.toggle-hidden
+code --install-extension henrychang.toggle-hidden
 ```
 
 The earlier private VSIX used the upstream identifier `adrianwilczynski.toggle-hidden`. Because changing the publisher changes the extension identifier, Settings Sync cannot be expected to migrate the private build automatically. Install and verify the Marketplace version first, then remove the private/upstream-identifier build if it is still installed.

@@ -13,7 +13,7 @@
 - Added the localized command category “点文件显示开关”.
 - Added the commands “隐藏点文件”, “显示点文件”, and “切换点文件显示状态”.
 - Added English and Simplified Chinese documentation for behavior, limitations, migration, and Settings Sync.
-- Prepared the extension for independent publication under `HenryChang618.toggle-hidden`.
+- Prepared the extension for independent publication under `henrychang.toggle-hidden`.
 - Updated repository, homepage, and issue-reporting metadata for the independently maintained project.
 - Replaced the deprecated `vscode` development package with `@types/vscode`.
 - Removed obsolete test, post-install, and TSLint configuration.

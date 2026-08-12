@@ -75,13 +75,13 @@ Peek Hidden Files: Show Excluded Files
 计划使用的独立 Marketplace 扩展标识为：
 
 ```text
-HenryChang618.toggle-hidden
+henrychang.toggle-hidden
 ```
 
 扩展正式发布后，可以在扩展视图中搜索并安装，也可以运行：
 
 ```bash
-code --install-extension HenryChang618.toggle-hidden
+code --install-extension henrychang.toggle-hidden
 ```
 
 此前生成的私有 VSIX 使用上游扩展标识 `adrianwilczynski.toggle-hidden`。由于更换 publisher 会产生新的扩展标识，不能预期 Settings Sync 自动把私有版本迁移成 Marketplace 版本。应先安装并验证 Marketplace 版本，再卸载仍然存在的私有版本或上游标识版本。
