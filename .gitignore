@@ -1,0 +1,10 @@
+.codex/
+.agents/
+node_modules/
+out/
+.vscode-test/
+temp/
+*.vsix
+*.log
+.DS_Store
+最终修改计划.md

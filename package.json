@@ -1,0 +1,92 @@
+{
+	"name": "toggle-hidden",
+	"displayName": "%extension.displayName%",
+	"description": "%extension.description%",
+	"publisher": "HenryChang618",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/HenryChang618/toggle-hidden-files-zh.git"
+	},
+	"license": "MIT",
+	"icon": "img/icon.png",
+	"version": "1.2.0",
+	"engines": {
+		"vscode": "^1.35.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"Exclude",
+		"Excluded",
+		"Hidden",
+		"Hide",
+		"Show",
+		"Toggle",
+		"Visibility",
+		"Dotfile",
+		"Dotfiles",
+		"点文件"
+	],
+	"activationEvents": [
+		"onCommand:extension.hideFiles",
+		"onCommand:extension.showFiles",
+		"onCommand:extension.toggleFiles"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+			"title": "%configuration.title%",
+			"properties": {
+				"toggleHidden.keepVisible": {
+					"type": "array",
+					"default": [],
+					"scope": "resource",
+					"items": {
+						"type": "string"
+					},
+					"uniqueItems": true,
+					"markdownDescription": "%configuration.keepVisible.description%"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.hideFiles",
+				"category": "%command.category%",
+				"title": "%command.hide.title%"
+			},
+			{
+				"command": "extension.showFiles",
+				"category": "%command.category%",
+				"title": "%command.show.title%"
+			},
+			{
+				"command": "extension.toggleFiles",
+				"category": "%command.category%",
+				"title": "%command.toggle.title%"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "extension.toggleFiles",
+					"group": "2_workspace"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc --watch -p ./"
+	},
+	"devDependencies": {
+		"@types/vscode": "1.35.0",
+		"typescript": "5.9.3"
+	},
+	"homepage": "https://github.com/HenryChang618/toggle-hidden-files-zh#readme",
+	"bugs": {
+		"url": "https://github.com/HenryChang618/toggle-hidden-files-zh/issues"
+	}
+}
